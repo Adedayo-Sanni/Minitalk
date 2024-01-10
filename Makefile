@@ -5,16 +5,17 @@
 #                                                     +:+ +:+         +:+      #
 #    By: asanni <asanni@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2024/01/06 19:46:24 by asanni            #+#    #+#              #
-#    Updated: 2024/01/06 19:48:57 by asanni           ###   ########.fr        #
+#    Created: 2024/01/10 17:27:11 by asanni            #+#    #+#              #
+#    Updated: 2024/01/10 18:12:15 by asanni           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = Minitalk
-
+NAME = minitalk
+SVR_NAME= server 
+CLT_NAME = client
 #--------------FLAGS----------------------------#
-CFLAGS = -Wall -Werror -Wextra -g3
 
+CFLAGS = -Wall -Werror -Wextra -g3
 
 #--------------PATHS----------------------------#
 
@@ -24,13 +25,13 @@ SOURCES = sources/
 P_LIBFT = libft/
 LIBFT = $(P_LIBFT)libft.a
 
-
 H_LIB = -I include/
 LINCLUDES = -L./libft -lft
 
 #--------------FILES----------------------------#
 
-SRC = 
+SRC = sources/server.c \
+sources/client.c \
 
 #--------------RULES----------------------------#
 
@@ -38,14 +39,19 @@ OBJFILES = $(subst $(SOURCES),$(OBJFOLDER),$(SRC:.c=.o))
 
 all: comp_lib $(OBJFOLDER) $(NAME)
 
+$(NAME): $(SVR_NAME) $(CLT_NAME)
+
 comp_lib:
 	@$(MAKE) -sC $(P_LIBFT)
 
 $(OBJFOLDER):
 	@mkdir $(OBJFOLDER)
 
-$(NAME): $(OBJFILES)
-	$(CC) $(OBJFILES) $(H_LIB) $(LIBFT) $(LINCLUDES) $(CFLAGS) -o $(NAME) -g
+$(SVR_NAME): $(OBJFILES)
+	$(CC) $(OBJFILES) $(H_LIB) $(LIBFT) $(LINCLUDES) $(CFLAGS) -o $(SVR_NAME) -g
+
+$(CLT_NAME): $(OBJFILES)
+	$(CC) $(OBJFILES) $(H_LIB) $(LIBFT) $(LINCLUDES) $(CFLAGS) -o $(CLT_NAME) -g
 
 $(OBJFOLDER)%.o : $(SOURCES)%.c
 	cc $(HEADERS) -c $< -o $@ -g3
@@ -57,7 +63,7 @@ clean:
 	rm -f $(OBJFILES) -r $(OBJFOLDER)
 
 fclean: clean
-	rm -f $(NAME)
+	rm -f $(NAME) $(SVR_NAME) $(CLT_NAME)
 
 re: fclean all
 .PHONY: all clean fclean re

@@ -1,21 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minitalk.h                                         :+:      :+:    :+:   */
+/*   server.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: asanni <asanni@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/10 15:43:04 by asanni            #+#    #+#             */
-/*   Updated: 2024/01/10 16:09:56 by asanni           ###   ########.fr       */
+/*   Created: 2024/01/10 15:39:46 by asanni            #+#    #+#             */
+/*   Updated: 2024/01/10 18:10:38 by asanni           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINITALK_H
-# define MINITALK_H
+#include "../include/minitalk.h"
 
-# include <unistd.h>
-# include <signal.h>
-//# include <sys/types.h>
-# include "../libft/libft.h" /* mylibft */
+//int	kill(char place, char holder);
 
-#endif //MINITALK_H
+int	main(int argc, char **argv)
+{
+	int	pid;
+
+	if (argc != 1)
+	{
+		ft_printf("Please start only the server");
+	}
+	pid = getpid();
+	ft_printf("%i", pid);
+}
