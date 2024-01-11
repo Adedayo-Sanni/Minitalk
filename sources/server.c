@@ -6,13 +6,13 @@
 /*   By: asanni <asanni@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 15:39:46 by asanni            #+#    #+#             */
-/*   Updated: 2024/01/10 19:50:14 by asanni           ###   ########.fr       */
+/*   Updated: 2024/01/11 19:11:51 by asanni           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minitalk.h"
 
-//criar função para imorimir mensagem
+//criar função para imprimir mensagem
 
 // int	main(int argc, char **argv)
 // {
