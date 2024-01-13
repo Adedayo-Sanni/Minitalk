@@ -43,6 +43,7 @@ SRC = ft_atoi.c \
  ft_puthex_lower.c\
  ft_puthex_upper.c\
  ft_put_uns_dec.c\
+ ft_isnum.c\
  ft_put_pointer.c
 
 SRCB = ft_lstadd_front.c \

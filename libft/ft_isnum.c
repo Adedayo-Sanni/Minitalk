@@ -1,20 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minitalk.h                                         :+:      :+:    :+:   */
+/*   ft_isnum.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: asanni <asanni@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/10 15:43:04 by asanni            #+#    #+#             */
-/*   Updated: 2024/01/13 16:21:26 by asanni           ###   ########.fr       */
+/*   Created: 2024/01/13 15:23:17 by asanni            #+#    #+#             */
+/*   Updated: 2024/01/13 15:24:35 by asanni           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINITALK_H
-# define MINITALK_H
+#include "libft.h"
 
-# include <unistd.h>
-# include <signal.h>
-# include "../libft/libft.h" /* mylibft */
+int	is_num(char *c)
+{
+	int	i;
+	int	check;
 
-#endif //MINITALK_H
+	i = 0;
+	check = 0;
+	while (c[i])
+	{
+		if (ft_isdigit(c[i]) == 1)
+			check = 1;
+		else
+			return (0);
+		i++;
+	}
+	return (check);
+}
