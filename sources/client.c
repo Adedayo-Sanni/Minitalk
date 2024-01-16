@@ -6,16 +6,16 @@
 /*   By: asanni <asanni@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 15:39:41 by asanni            #+#    #+#             */
-/*   Updated: 2024/01/13 21:31:31 by asanni           ###   ########.fr       */
+/*   Updated: 2024/01/16 20:29:35 by asanni           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minitalk.h"
 
 // a variavel global apos cada char (8 bits) para ela poder 
-// enviar de nova elaestá funcionado como um "index"
+// enviar de nova ela está funcionado como um "index"
 // pq uma var global ao inves de um index normal????
-//	pq ela vai ser resetada apos 8 rotações(deps de imprimir um char) 
+//	pq ela vai ser resetada apos 8 rotações(dps de imprimir um char) 
 //	das funçoes enquanto que um index a cada 1 passagem, não completando o byte
 
 int	g_send_bit = 0;
@@ -23,7 +23,7 @@ int	g_send_bit = 0;
 void	send_signal(int signal)
 {
 	if (signal == SIGUSR1)
-		g_send_sinal = 1;
+		g_send_bit = 1;
 }
 
 //Função que da free na msg_copy printa msg de erro e da exit
@@ -31,7 +31,6 @@ void	error(char *msg)
 {
 	free(msg);
 	ft_printf("Error:\nFail to communicate");
-	//encerrar communicação
 	exit(EXIT_FAILURE);
 }
 
@@ -57,33 +56,24 @@ int	verif_msg(int argc, char **argv)
 //função para enviar a mensagem
 void	send_msg(int pid, char msg)
 {
-	static char	*msg_copy = 0;
-	static int	bit = -1;
-	static int	server_pid = 0;
+	int	i;
+	int	bit;
 
-	if (msg)
-		msg_copy = ft_strdup(msg);
-	if (!msg_copy)
-		error (0);
-	if (pid)
-		server_pid = pid;
-	if (msg_copy[++bit / 8])
+	i = 7;
+	while (i >= 0)
 	{
-		/* code */
+		g_send_bit = 0;
+		bit = (msg >> i & 1);
+		if (bit == 1)
+			kill(pid, SIGUSR1);
+		else
+			kill(pid, SIGUSR2);
+	--i;
+		while (g_send_bit != 0)
+			;
 	}
+	ft_printf('\n');
 }
-
-	// i = 7;
-	// while (i >= 0)
-	// {
-	// 	bit = (msg >> i) & 1;
-	// 	if (bit == 1)
-	// 		ft_printf("1");
-	// 	else
-	// 		ft_printf("0");
-	// --i;
-	// }
-	// ft_printf("\n");
 
 //criar o main para enviar a msg
 int	main(int argc, char **argv)
@@ -103,10 +93,9 @@ int	main(int argc, char **argv)
 		sigaction(SIGUSR1, &sa, NULL);
 		while (argv[2][i] != '\0')
 		{
-			//send_msg(pid_num, argv[2][i]);
+			send_msg(pid_num, argv[2][i]);
 			i++;
 		}
-		ft_printf('a');
 	}
 	return (0);
 }

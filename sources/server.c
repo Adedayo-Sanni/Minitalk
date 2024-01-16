@@ -6,7 +6,7 @@
 /*   By: asanni <asanni@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/13 18:06:24 by asanni            #+#    #+#             */
-/*   Updated: 2024/01/13 21:37:28 by asanni           ###   ########.fr       */
+/*   Updated: 2024/01/16 20:21:00 by asanni           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,26 @@
 //sequencia de bits a receber
 
 //a função para receber/imprimir o bit vai funcionar igual a print num
-// o sinal vai literalmente encviar 1 e 0
-
+// o sinal vai literalmente enviar 1 e 0
 
 //estudar communicação com binarios em char
+
 int	g_receive_bit = 0;
+
+//not using the context variable so i casted it as void 
+//to not trigger the CFlags warnings
 
 static void	print_msg(int signal, siginfo_t *siginfo, void *context)
 {
-	//context é void - não vou usar tenho que castar o void
+	(void)context;
+	if (signal == SIGUSR1)
+	{
+		write(1, '1', 1);
+	}
+	if (signal == SIGUSR2)
+	{
+		write(1, '0', 1);
+	}
 }
 
 int	main(int argc, char **argv)
