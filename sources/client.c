@@ -6,7 +6,7 @@
 /*   By: asanni <asanni@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 15:39:41 by asanni            #+#    #+#             */
-/*   Updated: 2024/01/16 20:29:35 by asanni           ###   ########.fr       */
+/*   Updated: 2024/01/20 16:26:30 by asanni           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,6 @@ void	send_signal(int signal)
 }
 
 //Função que da free na msg_copy printa msg de erro e da exit
-void	error(char *msg)
-{
-	free(msg);
-	ft_printf("Error:\nFail to communicate");
-	exit(EXIT_FAILURE);
-}
 
 int	verif_msg(int argc, char **argv)
 {
@@ -56,46 +50,42 @@ int	verif_msg(int argc, char **argv)
 //função para enviar a mensagem
 void	send_msg(int pid, char msg)
 {
-	int	i;
-	int	bit;
+	unsigned char	bit;
+	int				i;
 
-	i = 7;
-	while (i >= 0)
+	i = 0;
+	while (i < 8)
 	{
 		g_send_bit = 0;
 		bit = (msg >> i & 1);
-		if (bit == 1)
+		if (bit == 0)
 			kill(pid, SIGUSR1);
-		else
+		else if (bit == 1)
 			kill(pid, SIGUSR2);
-	--i;
-		while (g_send_bit != 0)
+		i++;
+		while (!g_send_bit)
 			;
 	}
-	ft_printf('\n');
 }
 
 //criar o main para enviar a msg
 int	main(int argc, char **argv)
 {
 	struct sigaction	sa;
-	int					msg_check;
-	int					pid_num;
 	int					i;
 
 	i = 0;
-	msg_check = verif_msg(argc, argv);
-	if (msg_check == 1)
+	if (verif_msg(argc, argv) == 1)
 	{
-		pid_num = ft_atoi(argv[1]);
 		sa.sa_handler = send_signal;
 		sa.sa_flags = 0;
 		sigaction(SIGUSR1, &sa, NULL);
 		while (argv[2][i] != '\0')
 		{
-			send_msg(pid_num, argv[2][i]);
+			send_msg(ft_atoi(argv[1]), argv[2][i]);
 			i++;
 		}
+		send_msg(ft_atoi(argv[1]), '\n');
 	}
 	return (0);
 }
